@@ -7,6 +7,7 @@ interface ILayoutProps {
 }
 
 const Layout: React.FC<ILayoutProps> = () => {
+  useEffect(() => {}, []);
   // useEffect(() => {
   //   // 在需要绘制图标的地方执行以下代码
 

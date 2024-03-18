@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { message as toast } from "antd";
 
 import { MOCK_SENTRY_DATA } from "@/utils/constant";
+import useWebIconToastify from "@/hooks/useWebIconTostify";
 
 const Container = styled.div`
   position: relative;
@@ -21,6 +22,9 @@ export default function AMap() {
   const mapRef = useRef<any>(null);
   const sentryRef = useRef<any>(null);
   const [sentry, setSentry] = useState<any>();
+
+  const [updatedIcon, setUpdatedIcon] = useState(false);
+  useWebIconToastify(updatedIcon);
 
   useEffect(() => {
     AMapLoader.load({
@@ -59,6 +63,7 @@ export default function AMap() {
     MOCK_SENTRY_DATA.forEach((item, i) => {
       setTimeout(() => {
         setSentry(MOCK_SENTRY_DATA[i]);
+        setUpdatedIcon(true);
       }, 1000 * 5 + 1000 * 5 * i);
     });
     return () => {
