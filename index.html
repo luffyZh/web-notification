@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/monitor.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Web Map Notification</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <!-- <script>
+      if ('serviceWorker' in navigator) {
+        function askPermission() {
+          return new Promise(function (resolve, reject) {
+            const permissionResult = Notification.requestPermission(function (result) {
+              resolve(result);
+            });
+
+            if (permissionResult) {
+              permissionResult.then(resolve, reject);
+            }
+          }).then(function (permissionResult) {
+            if (permissionResult !== 'granted') {
+                throw new Error('We weren\'t granted permission.');
+            }
+          });
+        }
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/service-worker.js')
+            .then(function(registration) {
+              return Promise.all([
+                registration,
+                askPermission()
+              ]);
+            }).then(([registration]) => {
+              console.log('Service Worker 注册成功:', registration);
+              setTimeout(() => {
+                var title = 'PWA即学即用';
+              var options = {
+                  body: '邀请你一起学习',
+                  icon: '/img/icons/book-128.png',
+                  actions: [{
+                      action: 'show-book',
+                      title: '去看看'
+                  }, {
+                      action: 'contact-me',
+                      title: '联系我'
+                  }],
+                  tag: 'pwa-starter',
+                  renotify: true
+              };
+              registration.showNotification(title, options);
+              }, 5000);
+            })
+            .catch(function(error) {
+              // 注册失败
+              console.log('Service Worker 注册失败:', error);
+            });
+        });
+      }
+    </script> -->
+  </body>
+</html>
