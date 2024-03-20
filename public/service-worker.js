@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-undef */
 const APP_NAME = "app";
-const CACHE_VERSION = "1.8";
+const CACHE_VERSION = "2.3";
 const CACHE_NAME = `${APP_NAME}-v${CACHE_VERSION}`;
 
 // 安装 Service Worker
@@ -47,26 +47,51 @@ self.addEventListener("message", (event) => {
       })
     );
   }
+  // 处理 Client 发来的通知
+  if (event.data && event.data.type === "notification") {
+    // 如果是显示通知，则显示通知
+    const { title, options } = event.data;
+    self.registration.showNotification(title, options);
+    // 向客户端发 postMessage
+    self.clients.matchAll().then((clients) => {
+      clients.forEach((client) => {
+        client.postMessage({
+          type: "notification",
+          number: 0,
+        });
+      });
+    });
+  }
 });
 
 // 监听通知点击事件
 self.addEventListener('notificationclick', function (e) {
-  // 关闭窗口
-  e.notification.close();
-  // 打开网页
+  const action = e.action;
   e.waitUntil(
     // 获取所有clients
-    self.clients.matchAll().then(function (clientsList) {
-      if (!clients || clients.length === 0) {
-        // 当不存在 client 时，打开该网站
-        self.clients.openWindow && self.clients.openWindow('http://localhost:5173');
-        return;
-      }
-      // 如果存在 Tab，则切换到该站点的 Tab
-      clientsList &&
-      clientsList.length &&
-      clientsList[0].focus &&
-      clientsList[0].focus();
-    }),
-  );
+    self.clients.matchAll().then(function (clients) {
+        if (!clients || clients.length === 0) {
+            return;
+        }
+        switch (action) {
+          case 'show-book': {
+            self.clients.openWindow('https://juejin.cn/book/7307129524007731238?utm_source=profile_book');
+            break;
+          }
+          case 'send-email': {
+            self.clients.openWindow('mailto:zhoudeyou945@gmail.com');
+            break;
+          }
+          default: {
+            clients &&
+            clients[0] &&
+            clients[0].focus &&
+            clients[0].focus();
+            break;
+          }
+        }
+    })
+) ;
+  // 关闭窗口
+  e.notification.close();
 });

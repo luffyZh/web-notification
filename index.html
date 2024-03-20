@@ -35,24 +35,6 @@
               ]);
             }).then(([registration]) => {
               console.log('Service Worker 注册成功:', registration);
-              setTimeout(() => {
-                const title = '您好，我是AI助手';
-                const options = {
-                  body: '邀请你一起学习 HTML5 最新知识',
-                  icon: '/assets/images/AIBot.png',
-                  actions: [
-                    {
-                      action: 'show-book',
-                      title: '查看文档'
-                    },
-                    {
-                      action: 'send-email',
-                      title: '联系我们'
-                    }
-                  ]
-                };
-                registration.showNotification(title, options);
-              }, 1000 * 10);
             })
             .catch(function(error) {
               // 注册失败

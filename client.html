@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web Notification API</title>
+</head>
+<body>
+  <script>
+    // 判断 Notification 对象是否存在，如果存在申请通知
+    if ('Notification' in window) {
+      // 申请通知权限
+      Notification.requestPermission().then(permission => {
+        if (permission === 'granted') {
+          // 创建通知
+          const notification = new Notification('Hello, World!', {
+            body: '这是一条通知消息',
+            icon: '/assets/images/AIBot.png',
+            actions: [
+              { action: 'show-book', title: '查看文档' },
+              { action: 'send-email', title: '联系我们' }
+            ]
+          });
+
+          // 添加点击事件
+          notification.onclick = event => {
+            console.log('通知被点击');
+            // 根据 action 属性判断用户点击了哪个按钮
+            switch (event.action) {
+              case 'show-book':
+                console.log('用户点击了查看文档按钮');
+                window.open("https://juejin.cn/book/7307129524007731238?utm_source=profile_book");
+                break;
+              case 'send-email':
+                console.log('用户点击了联系我们按钮');
+                window.open("mailto:zhoudeyou945@gmail.com");
+                break;
+              default:
+                console.log('用户点击了通知主体');
+                // 让 Tab 变活跃
+                window.focus();
+                break;
+            }
+          };
+
+          // 添加关闭事件
+          notification.onclose = event => {
+            console.log('通知被关闭');
+          };
+
+          // 添加错误事件
+          notification.onerror = event => {
+            console.log('通知发生错误');
+          };
+        }
+      });
+    }
+  </script>
+</body>
+</html>
