@@ -9,9 +9,9 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-    <!-- <script>
+    <script>
       if ('serviceWorker' in navigator) {
-        function askPermission() {
+        function requestPermission() {
           return new Promise(function (resolve, reject) {
             const permissionResult = Notification.requestPermission(function (result) {
               resolve(result);
@@ -31,27 +31,10 @@
             .then(function(registration) {
               return Promise.all([
                 registration,
-                askPermission()
+                requestPermission()
               ]);
             }).then(([registration]) => {
               console.log('Service Worker 注册成功:', registration);
-              setTimeout(() => {
-                var title = 'PWA即学即用';
-              var options = {
-                  body: '邀请你一起学习',
-                  icon: '/img/icons/book-128.png',
-                  actions: [{
-                      action: 'show-book',
-                      title: '去看看'
-                  }, {
-                      action: 'contact-me',
-                      title: '联系我'
-                  }],
-                  tag: 'pwa-starter',
-                  renotify: true
-              };
-              registration.showNotification(title, options);
-              }, 5000);
             })
             .catch(function(error) {
               // 注册失败
@@ -59,6 +42,6 @@
             });
         });
       }
-    </script> -->
+    </script>
   </body>
 </html>
